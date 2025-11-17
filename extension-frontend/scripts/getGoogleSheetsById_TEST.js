@@ -13,21 +13,21 @@ function generateRandomStr(length) {
 }
 
 async function showModal() {
-    const result_token = await chrome.storage.local.get(['accessToken']);
-    console.log('resToken', result_token);
-    const token = result_token.accessToken;
-    console.log('token', token);
-    // Получение токенов
-    console.log("RESSSSSPONSE");
-    const googleTokenResponse = await fetch('http://127.0.0.1:8000/api/v1/get_google_token', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-    const data = await googleTokenResponse.json();
-    const googleToken = data["google_access_token"];
-    console.log('googleToken', googleToken);
+    // const result_token = await chrome.storage.local.get(['accessToken']);
+    // console.log('resToken', result_token);
+    // const token = result_token.accessToken;
+    // console.log('token', token);
+    // // Получение токенов
+    // console.log("RESSSSSPONSE");
+    // const googleTokenResponse = await fetch('http://127.0.0.1:8000/api/v1/get_google_token', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Authorization': `Bearer ${token}`
+    //     }
+    // });
+    // const data = await googleTokenResponse.json();
+    // const googleToken = data["google_access_token"];
+    // console.log('googleToken', googleToken);
     await showInsertModalForm1();
 }
 
