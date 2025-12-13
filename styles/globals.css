@@ -19,6 +19,22 @@
         @apply absolute top-full left-0 mt-2 p-4 bg-white border  border-gray-200 rounded-lg shadow-lg z-50 min-w-[300px];
     }
 
+    .dropdown-window-header {
+        @apply text-lg font-medium mb-4
+    }
+
+    .dropdown-window-date-label {
+        @apply block text-sm mb-1
+    }
+
+    .dropdown-window-campaign-date-input {
+        @apply w-full px-3 py-2 border border-gray-300 rounded mb-3
+    }
+
+    .dropdown-window-p {
+        @apply text-xs text-gray-600
+    }
+
     .gmass-butterbar {
         @apply fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-xl z-[9999] flex items-center gap-3;
     }
