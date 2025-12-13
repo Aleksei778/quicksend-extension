@@ -32,4 +32,4 @@ export const useAuth = () => {
   }, [])
 
   return { token, loading, setToken, refreshToken }
-}
+};

@@ -12,7 +12,7 @@ class SecureStorageService {
         return this.storage.set('tokenData', tokenData);
     }
 
-    async saveImportEmailsSession(importEmailsSession: ImportEmailsSession): Promise<void> {
+    async setImportEmailsSession(importEmailsSession: ImportEmailsSession): Promise<void> {
         return this.storage.set('importEmailsSession', importEmailsSession);
     }
 
@@ -24,6 +24,14 @@ class SecureStorageService {
 
     private async getImportEmailsSessions(): Promise<ImportEmailsSession[]> {
         return (await this.storage.get('importEmailsSessions') as ImportEmailsSession[])
+    }
+
+    async setTimezone(timezone: string): Promise<void> {
+        return (await this.storage.set('timezone', timezone));
+    }
+
+    async getTimezone(timezone: string): Promise<string | null> {
+        return (await this.storage.get('timezone') as string)
     }
 }
 

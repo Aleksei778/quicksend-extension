@@ -1,5 +1,5 @@
 import { API_CONF } from "~shared/utils/constants"
-import type { EmailsFromSpreadsheet } from "~shared/types";
+import type { EmailsFromSpreadsheet, EmailData } from "~shared/types";
 
 class ApiService {
     private baseUrl = API_CONF.BASE_URL
@@ -31,7 +31,7 @@ class ApiService {
         }
     }
 
-    async refreshToken(): Promise<string> {
+    async refreshJwtToken(): Promise<string> {
         const data = await this.request<{ access_token: string }>(
             API_CONF.ENDPOINTS.REFRESH_TOKEN,
             { method: 'POST' }
@@ -70,6 +70,31 @@ class ApiService {
         )
 
         return data
+    }
+
+    async startCampaign(
+        token: string,
+        emailData: EmailData,
+        files: Array<{ blob: Blob; filename: string }>
+    ): Promise<string> {
+        const formData = new FormData()
+
+        for (const file of files) {
+            formData.append("files", file.blob, file.filename)
+        }
+
+        formData.append("body", JSON.stringify(formData))
+
+        const data = await this.request<{ message: string }>(
+            API_CONF.ENDPOINTS.START_CAMPAIGN,
+            {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            }
+        )
+
+        return data.message
     }
 }
 

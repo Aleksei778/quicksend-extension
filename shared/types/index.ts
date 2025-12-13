@@ -1,6 +1,7 @@
-export interface GoogleFile {
-    name: string
+export interface AttachmentData {
+    filename: string
     url: string
+    filesize: string
 }
 
 export interface EmailsFromSpreadsheet {
@@ -21,4 +22,17 @@ export interface ImportEmailsSession {
     sheetName: string
     emails: string[]
     timestamp: number
+}
+
+export interface SubscriptionData {
+    plan?: string
+}
+
+export interface EmailData {
+    recipients: string[]
+    subject: string
+    body: string
+    date: string
+    time: string
+    timezone: string
 }

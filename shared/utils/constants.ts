@@ -5,7 +5,8 @@ export const API_CONF = {
         GET_GOOGLE_TOKEN: '/api/v1/google/token',
         GET_EMAILS_FROM_SPREADSHEET: '/api/v1/googlesheets/parse',
         LOGIN: '/api/v1/login',
-        PROFILE: 'profile'
+        PROFILE: 'profile',
+        START_CAMPAIGN: '/api/v1/start-campaign'
     },
     TIMEOUT: 1000,
 } as const
