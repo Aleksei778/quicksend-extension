@@ -1,13 +1,12 @@
 import React from "react";
 import { useState } from "react";
-// @ts-ignore
-import { ReactComponent as GmailIcon } from "react:~assets/gmail.svg";
-// @ts-ignore
-import { ReactComponent as SheetsIcon } from "react:~assets/googlesheets.svg";
+
+import GmailIcon from "react:~assets/gmail.svg";
+import SheetsIcon from "react:~assets/googlesheets.svg";
 
 interface SheetsModalWindowProps {
     onSubmit: (spreadsheetId: string, range: string) => void;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 export const SheetsModalWindow = ({
@@ -28,8 +27,8 @@ export const SheetsModalWindow = ({
         <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
             <div className="modal-container">
                 <div className="modal-logo-container">
-                    <GmailIcon className="modal-logo" size={20} />
-                    <SheetsIcon className="modal-logo" size={20} />
+                    <GmailIcon className="modal-logo" width={26} height={26} />
+                    <SheetsIcon className="modal-logo" width={26} height={26} />
                 </div>
 
                 <h3 className="modal-title">

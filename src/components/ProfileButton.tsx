@@ -1,10 +1,10 @@
 import { useAuth } from "~src/hooks/useAuth"
-import ReactComponent from "react:~assets/profile_icon.svg"
+import ProfileIcon from "react:~assets/profile_icon.svg"
 import { API_CONF } from "~src/utils/constants";
 import React from "react";
 
 interface ProfileButtonProps {
-    onClick: () => Promise<void>;
+  onClick?: () => Promise<void>;
 }
 
 export function ProfileButton({onClick}: ProfileButtonProps) {
@@ -16,8 +16,8 @@ export function ProfileButton({onClick}: ProfileButtonProps) {
     }
 
     const redirectUrl = token
-      ? `${API_CONF.BASE_URL}/${API_CONF.ENDPOINTS.PROFILE}`
-      : `${API_CONF.BASE_URL}/${API_CONF.ENDPOINTS.LOGIN}`
+      ? `${API_CONF.WEBSITE_URL}/${API_CONF.WEBSITE_ENDPOINTS.PROFILE}`
+      : `${API_CONF.API_URL}/${API_CONF.API_ENDPOINTS.LOGIN}`
 
     window.open(redirectUrl, "_blank")
   }
@@ -29,10 +29,7 @@ export function ProfileButton({onClick}: ProfileButtonProps) {
       disabled={loading}
       title={loading ? "Loading..." : token ? "Go to your profile" : "Login"}
     >
-      <ReactComponent
-        width={24}
-        height={24}
-      />
+      <ProfileIcon />
     </button>
   )
 }

@@ -4,10 +4,10 @@
     "version": "1.0",
     "description": "QuickSend - это современный сервис для массовой отправки электронных писем внутри Gmail. Мы гарантируем простое в использовании приложение, которое оптимизирует вашу рассылку, минимизируя число писем в спаме.",
 //    "icons": {
-//        "16": "./images/energy.png",
-//        "32": "./images/energy.png",
-//        "64": "./images/energy.png",
-//        "128": "./images/energy.png"
+//        "16": "./images/icon.png",
+//        "32": "./images/icon.png",
+//        "64": "./images/icon.png",
+//        "128": "./images/icon.png"
 //    },
     "permissions": [
       "activeTab",

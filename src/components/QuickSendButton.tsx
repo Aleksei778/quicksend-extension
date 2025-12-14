@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 interface QuickSendButtonProps {
-    onClick: () => Promise<void>;
+    onClick?: () => Promise<void>;
 }
 
 export function QuickSendButton({ onClick }: QuickSendButtonProps) {

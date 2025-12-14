@@ -42,7 +42,7 @@ class GmailService {
         return hrefs
     }
 
-    async getEmailDataFromOurSpreadsheetModal(
+    async getEmailDataFromGmailMessagesWindow(
         composeWindow: HTMLElement,
     ): Promise<EmailData> {
         let workingWindow = composeWindow
@@ -135,7 +135,7 @@ class GmailService {
     }
 
     async openComposeWindow(): Promise<void> {
-        const composeButton = document.querySelector(GMAIL_SELECTORS.COMPOSE_BUTTON) as HTMLButtonElement;
+        const composeButton = document.querySelector(GMAIL_SELECTORS.COMPOSE_WINDOW_BUTTON) as HTMLButtonElement;
         if (composeButton) {
             composeButton.click();
         }

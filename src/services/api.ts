@@ -1,8 +1,8 @@
 import { API_CONF } from "~src/utils/constants"
-import type { EmailsFromSpreadsheet, EmailData } from "~src/types";
+import type { EmailsFromSpreadsheet, EmailData, SubscriptionData } from "~src/types";
 
 class ApiService {
-    private baseUrl = API_CONF.BASE_URL
+    private baseUrl = API_CONF.API_URL
 
     private async request<T>(endpoint: string, options: RequestInit): Promise<T> {
         const controller = new AbortController()
@@ -33,7 +33,7 @@ class ApiService {
 
     async refreshJwtToken(): Promise<string> {
         const data = await this.request<{ access_token: string }>(
-            API_CONF.ENDPOINTS.REFRESH_TOKEN,
+            API_CONF.API_ENDPOINTS.REFRESH_TOKEN,
             { method: 'POST' }
         )
 
@@ -42,7 +42,7 @@ class ApiService {
 
     async getGoogleToken(accessToken: string): Promise<string> {
         const data = await this.request<{ google_token: string }>(
-            API_CONF.ENDPOINTS.GET_GOOGLE_TOKEN,
+            API_CONF.API_ENDPOINTS.GET_GOOGLE_TOKEN,
             {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${accessToken}` }
@@ -58,7 +58,7 @@ class ApiService {
         range: string
     ): Promise<EmailsFromSpreadsheet> {
         const data = this.request<EmailsFromSpreadsheet>(
-            API_CONF.ENDPOINTS.GET_EMAILS_FROM_SPREADSHEET,
+            API_CONF.API_ENDPOINTS.GET_EMAILS_FROM_SPREADSHEET,
             {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${accessToken}` },
@@ -86,7 +86,7 @@ class ApiService {
         formData.append("body", JSON.stringify(formData))
 
         const data = await this.request<{ message: string }>(
-            API_CONF.ENDPOINTS.START_CAMPAIGN,
+            API_CONF.API_ENDPOINTS.START_CAMPAIGN,
             {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
@@ -109,6 +109,19 @@ class ApiService {
         }
 
         return await response.blob()
+    }
+
+    async checkSubscription(token: string): Promise<SubscriptionData>
+    {
+        const data = this.request<SubscriptionData>(
+            API_CONF.API_ENDPOINTS.CHECK_SUBSCRIPTION,
+            {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }
+        )
+
+        return data
     }
 }
 
