@@ -1,15 +1,16 @@
 import { useAuth } from "~src/hooks/useAuth"
-import TableIcon from "react:~assets/list_icon.svg"
-import React from "react";
-import { apiService } from "~src/services/api";
+import { Sheet } from "lucide-react"
+import React from "react"
+import { apiService } from "~src/services/api"
 
 export function SpreadsheetsButton() {
   const { token, loading } = useAuth()
-  const [hasAccess, setHasAccess] = React.useState(true);
+  const [hasAccess, setHasAccess] = React.useState(true)
+  const [isHovered, setIsHovered] = React.useState(false)
 
   React.useEffect(() => {
     const checkAccess = async () => {
-      if (!token) return;
+      if (!token) return
 
       try {
         const subscriptionData = await apiService.checkSubscription(token)
@@ -43,10 +44,28 @@ export function SpreadsheetsButton() {
 
   return (
     <button
-        className="table-button"
-        onClick={handleClick}
-        title="Parse recipients from Google Sheets">
-      <TableIcon width={24} height={24} />
+      style={{
+        padding: '10px',
+        backgroundColor: isHovered ? '#EFF6FF' : 'transparent',
+        border: isHovered ? '1px solid #BFDBFE' : '1px solid transparent',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease-in-out',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      title="Parse recipients from Google Sheets"
+    >
+      <Sheet 
+        size={20} 
+        color={isHovered ? '#2563EB' : '#4B5563'}
+        strokeWidth={2}
+        style={{ transition: 'color 0.2s ease-in-out' }}
+      />
     </button>
   )
 }

@@ -1,12 +1,14 @@
 import React from "react"
-import WebsiteIcon from "react:~assets/website_icon.svg"
-import { API_CONF } from "~src/utils/constants";
+import { ExternalLink } from "lucide-react"
+import { API_CONF } from "~src/utils/constants"
 
 interface WebsiteButtonProps {
     onClick?: () => Promise<void>
 }
 
 export function WebsiteButton({ onClick }: WebsiteButtonProps) {
+    const [isHovered, setIsHovered] = React.useState(false)
+
     const handleClick = async () => {
         if (onClick) {
             await onClick()
@@ -16,11 +18,28 @@ export function WebsiteButton({ onClick }: WebsiteButtonProps) {
 
     return (
         <button
-            className="website-button"
+            style={{
+                padding: '10px',
+                backgroundColor: isHovered ? '#FAF5FF' : 'transparent',
+                border: isHovered ? '1px solid #E9D5FF' : '1px solid transparent',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease-in-out',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}
             onClick={handleClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             title="Link to our website"
         >
-            <WebsiteIcon width={24} height={24} />
+            <ExternalLink 
+                size={20} 
+                color={isHovered ? '#9333EA' : '#4B5563'}
+                strokeWidth={2}
+                style={{ transition: 'color 0.2s ease-in-out' }}
+            />
         </button>
     )
 }

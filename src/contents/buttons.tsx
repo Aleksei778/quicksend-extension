@@ -100,7 +100,12 @@ export default function GmailButtons() {
 
     return (
         <>
-            <div className="flex gap-2 items-center">
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: '8px',
+                alignItems: 'center'
+            }}>
                 <ProfileButton />
                 <SpreadsheetsButton />
                 <WebsiteButton />
