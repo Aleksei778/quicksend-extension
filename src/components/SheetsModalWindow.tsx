@@ -2,10 +2,7 @@ import React, { useState } from "react"
 import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 
-interface SheetsModalWindowProps {
-  onSubmit: (spreadsheetId: string, range: string) => Promise<void>
-  onClose?: () => void
-}
+import type { SheetsModalWindowProps } from "~src/types";
 
 export const SheetsModalWindow = ({
   onSubmit,

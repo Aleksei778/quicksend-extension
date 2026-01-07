@@ -4,14 +4,6 @@ import type { TokenData, ImportEmailsSession } from "~src/types";
 class SecureStorageService {
     private storage = new SecureStorage();
 
-    async getTokenData(): Promise<TokenData | null> {
-        return this.storage.get('tokenData');
-    }
-
-    async setTokenData(tokenData: TokenData): Promise<void> {
-        return this.storage.set('tokenData', tokenData);
-    }
-
     async setImportEmailsSession(importEmailsSession: ImportEmailsSession): Promise<void> {
         return this.storage.set('importEmailsSession', importEmailsSession);
     }
@@ -26,12 +18,20 @@ class SecureStorageService {
         return (await this.storage.get('importEmailsSessions') as ImportEmailsSession[])
     }
 
-    async setTimezone(timezone: string): Promise<void> {
-        return (await this.storage.set('timezone', timezone));
+    async setAccessToken(accessToken: string): Promise<void> {
+        await this.storage.set('access_jwt_token', accessToken);
     }
 
-    async getTimezone(): Promise<string | null> {
-        return (await this.storage.get('timezone') as string)
+    async getAccessToken(): Promise<string | null> {
+        return (await this.storage.get('access_token') as string)
+    }
+
+    async setRefreshToken(refreshToken: string): Promise<void> {
+        await this.storage.set('refresh_token', refreshToken);
+    }
+
+    async getRefreshToken(): Promise<string | null> {
+        return (await this.storage.get('refresh_token') as string)
     }
 }
 

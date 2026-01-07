@@ -106,23 +106,23 @@ class GmailService {
         const time = workingWindow.querySelector(
             "#campaign-time"
         ) as HTMLInputElement;
+        const timezone = workingWindow.querySelector(
+            "#campaign-timezone"
+        ) as HTMLInputElement;
 
         const now = new Date();
 
         if (date && time) {
             const inputDateTime = new Date(`${date.value}T${time.value}`)
 
-            const timezone = await storageService.getTimezone()
-            if (timezone) {
-                emailData.timezone = timezone
-            }
-
             if (inputDateTime < now) {
                 emailData.date = ""
                 emailData.time = ""
+                emailData.timezone = ""
             } else {
                 emailData.date = date.value
                 emailData.time = time.value
+                emailData.timezone = timezone.value
             }
         }
 

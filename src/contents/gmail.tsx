@@ -3,16 +3,12 @@ import React, { useEffect, useRef, useState } from "react"
 import { MoreVertical } from "lucide-react"
 
 import { QuickSendButton } from "~src/components/QuickSendButton"
-import { waitForElement } from "~src/utils/helpers"
 import { GMAIL_SELECTORS } from "~src/utils/constants"
-import { apiService } from "~src/services/api"
 import { gmailService } from "~src/services/gmail"
-import { storageService } from "~src/services/storage"
 import { findParentComposeWindow } from "~src/utils/helpers"
-
 import { CampaignDropdown } from "~src/components/CampaignDropdown"
-import { SheetsModalWindow } from "~src/components/SheetsModalWindow"
 import { subscribe } from "~src/contents/message-bus"
+import { toast } from "sonner";
 
 export const config: PlasmoCSConfig = {
     matches: ["https://mail.google.com/*"],
@@ -75,26 +71,32 @@ export default function QuickSendInline() {
         const composeWindow = findParentComposeWindow(containerRef.current)
 
         if (!composeWindow) {
-            console.error("[Qucksend] Compose window not found!")
+            console.error("[Quicksend] Compose window not found!")
             return
         }
-
-        const tokenData = await storageService.getTokenData()
-        const token = tokenData?.accessToken
-
-        if (!token) return
 
         const emailData = await gmailService.getEmailDataFromGmailMessagesWindow(composeWindow)
         const attachments = await gmailService.getFilesFromGmailMessageWindow(composeWindow)
 
         const files = await Promise.all(
             attachments.map(async (attachment) => ({
-                blob: await apiService.fetchAttachment(attachment.url),
+                blob: await chrome.runtime.sendMessage({
+                    type: 'FETCH_ATTACHMENT',
+                    attachmentUrl: attachment.url,
+                }),
                 filename: attachment.filename,
             }))
         )
 
-        await apiService.startCampaign(token, emailData, files)
+        const response = await chrome.runtime.sendMessage({
+            type: 'START_CAMPAIGN',
+            emailData: emailData,
+            files: files,
+        })
+
+        if (!response.success) {
+            toast.error("Try again please.")
+        }
     }
 
     return (

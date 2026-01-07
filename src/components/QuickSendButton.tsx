@@ -2,9 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { Send } from "lucide-react"
 
-interface QuickSendButtonProps {
-    onClick?: () => Promise<void>
-}
+import type { QuickSendButtonProps } from "~src/types"
 
 export function QuickSendButton({ onClick }: QuickSendButtonProps) {
     const [disabled, setDisabled] = useState<boolean>(false)

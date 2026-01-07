@@ -1,10 +1,8 @@
 import React from "react"
 import { ExternalLink } from "lucide-react"
-import { API_CONF } from "~src/utils/constants"
 
-interface WebsiteButtonProps {
-    onClick?: () => Promise<void>
-}
+import { API_CONF } from "~src/utils/constants"
+import type { WebsiteButtonProps } from "~src/types"
 
 export function WebsiteButton({ onClick }: WebsiteButtonProps) {
     const [isHovered, setIsHovered] = React.useState(false)

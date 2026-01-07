@@ -36,3 +36,24 @@ export interface EmailData {
     time: string
     timezone: string
 }
+
+export interface SheetsModalWindowProps {
+    onSubmit: (spreadsheetId: string, range: string) => Promise<void>
+    onClose?: () => void
+}
+
+export interface CampaignDropdownProps {
+    isVisible: boolean
+}
+
+export interface ProfileButtonProps {
+    onClick?: () => Promise<void>
+}
+
+export interface QuickSendButtonProps {
+    onClick?: () => Promise<void>
+}
+
+export interface WebsiteButtonProps {
+    onClick?: () => Promise<void>
+}

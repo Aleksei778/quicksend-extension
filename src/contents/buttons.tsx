@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "sonner";
 import type { PlasmoCSConfig, PlasmoGetInlineAnchor } from "plasmo";
 
 import { ProfileButton } from "~src/components/ProfileButton";
 import { SpreadsheetsButton } from "~src/components/SpreadsheetsButton";
 import { WebsiteButton } from "~src/components/WebsiteButton";
 import { SheetsModalWindow } from "~src/components/SheetsModalWindow";
-import { apiService } from "~src/services/api";
 import { gmailService } from "~src/services/gmail";
-import { storageService } from "~src/services/storage";
 
 export const config: PlasmoCSConfig = {
     matches: ["https://mail.google.com/*"],
@@ -40,8 +39,6 @@ export default function GmailButtons() {
 
     useEffect(() => {
         const handler = (event: MessageEvent) => {
-            console.log("Message received:", event.data) 
-            
             if (event.source !== window) return
             if (event.data?.source !== "quicksend") return
 
@@ -57,14 +54,6 @@ export default function GmailButtons() {
 
     const handleSheetsSubmit = async (spreadsheetId: string, range: string) => {
         try {
-            const tokenData = await storageService.getTokenData()
-            const token = tokenData?.accessToken
-            if (!token) {
-                console.error("No token found")
-                return
-            }
-
-            // Находим первое открытое окно compose
             let composeWindows = await gmailService.findComposeWindows()
             
             if (composeWindows.length === 0) {
@@ -80,21 +69,27 @@ export default function GmailButtons() {
                 return
             }
 
-            const data = await apiService.getEmailsFromSpreadsheet(
-                token,
-                spreadsheetId,
-                range
-            )
+            const response = await chrome.runtime.sendMessage({
+                type: 'GET_EMAILS',
+                spreadsheetId: spreadsheetId,
+                range: range,
+            })
+
+            if (!response.success) {
+                toast.error("Try again please")
+                return
+            }
 
             await gmailService.addEmailChip(
-                data.spreadsheetId,
-                data.totalCount,
+                response.data.spreadsheetId,
+                response.data.totalCount,
                 composeWindow
             )
 
             setShowSheets(false)
         } catch (error) {
             console.error("Error in handleSheetsSubmit:", error)
+            toast.error("Try again please")
         }
     }
 

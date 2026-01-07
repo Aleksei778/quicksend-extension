@@ -1,23 +1,25 @@
-import { useAuth } from "~src/hooks/useAuth"
 import { Sheet } from "lucide-react"
 import React from "react"
-import { apiService } from "~src/services/api"
+import { toast } from "sonner";
 
 export function SpreadsheetsButton() {
-  const { token, loading } = useAuth()
   const [hasAccess, setHasAccess] = React.useState(true)
   const [isHovered, setIsHovered] = React.useState(false)
 
   React.useEffect(() => {
     const checkAccess = async () => {
-      if (!token) return
-
       try {
-        const subscriptionData = await apiService.checkSubscription(token)
+        const response = await chrome.runtime.sendMessage({ type: 'CHECK_SUBSCRIPTION' })
+
+        if (!response.success) {
+            toast.error('Have no access to spreadsheets')
+
+            return null
+        }
 
         const hasValidPlan =
-            subscriptionData.plan !== undefined &&
-            subscriptionData.plan !== "free_trial"
+            response.data.plan !== undefined &&
+            response.data.plan !== "free_trial"
 
         setHasAccess(hasValidPlan)
       } catch (error) {
@@ -26,9 +28,9 @@ export function SpreadsheetsButton() {
     }
 
     checkAccess()
-  }, [token])
+  })
 
-  if (!hasAccess || loading) {
+  if (!hasAccess) {
     return null
   }
 
